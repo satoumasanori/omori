@@ -47,8 +47,14 @@
     </div>
   </footer>
    <?php wp_footer();?>
+  <script>
+    var eventCalendar = {
+      ajaxUrl: '<?php echo admin_url('admin-ajax.php'); ?>'
+    };
+  </script>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/event_calendar.js"></script>
 <script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </html>

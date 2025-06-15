@@ -3,8 +3,9 @@
   display: flex;
   height: auto;
   /* modify */
-  padding: 20px;  
+  padding: 20px;
 }
+
 .event-card {
   width: 29%;
   display: flex;
@@ -16,23 +17,35 @@
 .event-card-img {
   position: relative;
   width: 100%;
-  /* aspect-ratio: 1/0.67; */
+  height: 100%;
   border-bottom-left-radius: 40px;
   border-top-right-radius: 40px;
-  /* background-color: rgb(207, 204, 204); */
   overflow: hidden;
 }
+
+.event-card-img img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/0.7;
+  object-fit: cover;
+  /* border-bottom-left-radius: 40px; */
+  /* border-top-right-radius: 40px; */
+}
+
 .event-card-img .date {
   position: absolute;
   display: flex;
   align-items: center;
   color: black;
+  max-width: 115px;
+  max-height: 40px;
   bottom: 16px;
   left: 16px;
   padding-inline: 10px;
   border-radius: 5px;
   background-color: white;
 }
+
 .event-card-img .date p {
   font-size: 32px;
   font-weight: bold;
@@ -42,27 +55,31 @@
 .event-card-img .date {
   font-size: 13px;
 }
+
 .event-card-text {
   padding: 16px 13px;
 
 }
+
 .event-card-text .title {
   font-size: 20px;
   font-weight: bold;
 }
 
+/* 6/11 modify */
 .event-card-text .info {
   font-size: 12px;
-  font-weight: bold;
+  /* font-weight: bold; */
   padding: 8px 0 18px 0;
   color: #7B7B7B;
 }
 
+/* modify 6/11 */
 .event-card-text .info span {
-  padding-inline: 10px;
+  padding-inline: 1px;
 }
 
-.event-card-text .info .contents p{
+.event-card-text .info .contents p {
   font-size: 16px !important;
 }
 
@@ -76,89 +93,105 @@
   background-color: #DF4B99;
 }
 
- .event-slide {
+.event-slide {
   margin-top: 0 !important;
 }
 
- .event .next-btn,
- .event .prev-btn {
-   position: relative;
-   background-color: #fff;
-   border: 1px solid #000;
-   border-radius: 50%;
-   width: 40px;
-   height: 40px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   color: #000;
-   font-weight: bold;
-   font-size: 26px;
- }
- .event-container .quiz-sidebar{
+.event .next-btn,
+.event .prev-btn {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.event-handle-button .event-calendar-btn span {
+  font-weight: bold;
+}
+
+.event-container .quiz-sidebar {
   height: 100% !important;
- }
- .range-button.active {
+}
+
+.range-button.active {
   background-color: #DF4B99;
   color: white;
   /* border-radius: 5px; */
- }
- .event a{
+}
+
+.event a {
   text-decoration: none;
   color: #000;
- }
- .event-week{
+}
+
+.event-week {
   width: 100%;
-  padding-top: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 20px;
- }
- .event-week .event-card{
-  width: 24%;
-  align-items: start;
-  border: none;
- }
- .event-month{
-  width: 100%;
+  padding-top: 30px;
+  /* padding-top: 100px; */
+  /* display: grid;
+  grid-template-columns: auto auto auto auto; */
   display: flex;
   justify-content: start;
-  gap: 20px;
   flex-wrap: wrap;
- }
- .event-month .event-card{
-  max-width: 160px;
+  gap: 15px;
+}
+
+.event-week .event-card {
+  width: 23%;
+  align-items: start;
+  border: none;
+}
+
+.event-month {
+  width: 100%;
+  padding-top: 30px;
+  display: flex;
+  justify-content: start;
+  gap: 0px;
+  flex-wrap: wrap;
+}
+
+.event-month .event-card {
+  /* max-width: 160px; */
+  width: 23%;
   align-items: start;
   border: 1px solid #000;
   padding: 5px 10px;
- }
- .event-month p{
+  margin: 5px 5px;
+}
+
+.event-month p {
   line-height: unset;
- }
- .event-month .title{
+}
+
+.event-month .title {
   line-height: unset;
- }
- .event-month .date{
+}
+
+.event-month .date {
   font-size: 12px;
   font-weight: bold;
   color: #000;
- }
- .event-month .event-card-text{
-  padding: 0px;
- }
- .event-container .quiz-sidebar{
-  border: 0px;
- }
- .event-button-group{
-  width: fit-content;
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-  position: absolute;
-  top: 20px;
 }
-.event-calendar-btn{
+
+.event-month .event-card-text {
+  padding: 0px;
+}
+
+.event-container .quiz-sidebar {
+  border: 0px;
+}
+
+
+.event-calendar-btn {
   position: relative;
   width: 40px;
   height: 40px;
@@ -169,4 +202,394 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+}
+
+.three-event-cards {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+}
+
+.three-event-cards .event-card {
+  /* width: 32%; */
+  margin-bottom: 20px;
+  min-width: 230px;
+}
+
+.three-event-cards .event-card .event-card-img {
+  height: unset;
+}
+
+.wp-caption,
+.wp-caption-text {
+  display: none !important;
+}
+
+.event-f-right-img {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important
+}
+
+.f-right-link a {
+  display: flex;
+  text-decoration: none;
+  color: #000;
+}
+
+.evnt-month-desplay {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: absolute;
+  top: 40%;
+}
+
+.evnt-month-desplay .event-card-img .date {
+  display: flex;
+  align-items: center;
+  width: 40%;
+  color: black;
+  bottom: 16px;
+  left: 16px;
+  padding-inline: 10px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.evnt-month-desplay .event-card-text {
+  padding: 0px 15px;
+  padding-right: 5px;
+}
+
+.evnt-month-desplay .title {
+  position: relative;
+  color: white;
+  margin-bottom: 0px;
+}
+
+/* 6/11 modify */
+.evnt-month-desplay .event-card-text .info {
+  position: relative;
+  font-size: 12px;
+  /* font-weight: bold; */
+  padding: 0px 0 18px 0;
+  color: white;
+}
+
+.range-button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: absolute;
+  z-index: 2;
+  top: 0%;
+  transform: translateY(-20%);
+  right: 10%;
+}
+
+.event-right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  padding-top: 5%;
+}
+
+.event-slide {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  padding-right: 20px;
+  padding-bottom: 70px;
+}
+
+.event-button-group {
+  width: 100%;
+
+  display: flex;
+  justify-content: start;
+  gap: 50px;
+}
+
+.event-handle-button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.event-handle-button p {
+  font-size: 20px;
+  text-align: start;
+  font-weight: bold;
+  /* position: absolute; */
+  top: 50px;
+}
+
+#event-range-label {
+  display: flex;
+}
+
+.event-week .event-card-img .date {
+  margin-bottom: 0;
+  position: relative;
+  bottom: 0px;
+}
+
+.evnt-month-desplay .event-card-text .info {
+  padding-bottom: 0px;
+}
+
+.evnt-month-desplay .event-card-text .title {
+  line-height: 20px;
+}
+
+.event-month-pagination {
+  right: 50%;
+  transform: translate(50%, 10px);
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  gap: 20px;
+  position: absolute;
+  bottom: 16px;
+}
+
+.month-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #DF4B99;
+  color: white;
+  font-weight: bold;
+  border: 0;
+  cursor: pointer;
+}
+
+.month-next-btn.disabled,
+.month-prev-btn.disabled {
+  background-color: #BFBFBF;
+  color: #000;
+  cursor: not-allowed;
+}
+
+.range-day.active {
+  background-color: #4D8FE6;
+}
+
+.range-week.active {
+  background-color: #DF4B99;
+}
+
+.range-month.active {
+  background-color: #EEB642;
+}
+
+.display-none {
+  display: none;
+}
+
+.button-disabled {
+  background-color: #BFBFBF;
+}
+
+.day-event-cards .contents p {
+  white-space: nowrap;
+  /* Prevent line breaks */
+  overflow: hidden;
+  /* Hide overflow text */
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 1200px) {
+  .event-week {
+    /* grid-template-columns: auto auto auto; */
+    /* gap: 20px; */
+  }
+
+  .event-card-img .event-month-dsplay .date p {
+    font-size: 22px;
+    font-weight: bold;
+    padding-right: 5px;
+  }
+
+  .event-card-img .event-month-dsplay .date {
+    bottom: 8px;
+  }
+
+  .event-week .event-card {
+    width: 30%;
+    align-items: start;
+    border: none;
+  }
+}
+
+@media only screen and (max-width : 1024px) {
+  .event-card-img .date p {
+    font-size: 28px;
+  }
+
+  .event-month-display .date span {
+    font-size: 10px;
+  }
+
+  .event-month-display .date {
+    font-size: 11px;
+  }
+
+  .event-month-display .event-card-img .date {
+    min-width: 100px;
+    min-height: 30px;
+    padding-inline: 5px;
+  }
+
+  .evnt-month-desplay .event-card-text .title {
+    font-size: 16px;
+  }
+
+  .evnt-month-desplay .event-card-text .info {
+    font-size: 10px;
+  }
+}
+
+@media only screen and (max-width:900px) {
+  .three-event-cards {
+    display: flex;
+    justify-content: center;
+  }
+
+  .event-card-text .info {
+    font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+  .event-card {
+    width: 45%;
+    margin-bottom: 20px;
+  }
+
+  .evnet-slide {
+    padding-right: 0;
+  }
+
+  .event-week {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+  }
+
+  .event-week .event-card {
+    width: 45%;
+
+  }
+
+  .event-month {
+    flex-wrap: wrap;
+    /* gap: 10px; */
+  }
+
+}
+
+@media only screen and (max-width:650px) {
+  .event-month .event-card {
+    width: 31%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .event-week {
+    gap: 10px;
+  }
+
+  .event-week .event-card {
+    margin-bottom: 0px;
+  }
+
+  .evnt-month-desplay .date {
+    max-width: 100px;
+    max-height: 30px;
+    font-size: 10px;
+  }
+
+  .evnt-month-desplay .title {
+    font-size: 16px;
+  }
+
+  .evnt-month-desplay .date p {
+    font-size: 24px;
+  }
+
+  .evnt-month-desplay .event-card-text .info span {
+    padding-inline: 2px;
+  }
+
+  .evnt-month-desplay .event-card-text .info {
+    font-size: 9.5px;
+  }
+
+  .f-event-date h2 {
+    font-size: 25px;
+  }
+
+  .event-month .event-card {
+    width: 31%;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .event-month .event-card {
+    top: 46%;
+    width: 44%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .evnt-month-desplay {
+    top: 30%;
+  }
+
+  /* .event-month .event-card {
+    width: 31%;
+  } */
+}
+
+@media only screen and (max-width:480px) {
+  .evnt-month-desplay .info {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+.event-card-text .title {
+  font-size: 14px;
+}
+.day-event-cards .contents p {
+  font-size: 12px;
+}
+}
+
+@media only screen and (max-width:320px) {
+  .event-slide {
+    margin-top: 20px;
+  }
+
+  .event-range-lable {
+    font-size: 12px;
+    gap: 10px;
+  }
+
+  .event-handle-button .event-calendar-btn {
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    font-weight: bold;
+  }
 }

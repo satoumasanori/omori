@@ -15,17 +15,17 @@ if (isset($_GET['answer']) && isset($_GET['correct'])) {
         <?php endif; ?>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Check if this is the first time showing the notification
             const hasShownNotification = sessionStorage.getItem('hasShownNotification');
-            
+
             if (!hasShownNotification) {
                 const notification = document.getElementById('notification');
                 notification.style.display = 'block';
-                
+
                 // Set flag in session storage
                 sessionStorage.setItem('hasShownNotification', 'true');
-                
+
                 setTimeout(() => {
                     notification.style.display = 'none';
                 }, 5000);
@@ -37,37 +37,38 @@ if (isset($_GET['answer']) && isset($_GET['correct'])) {
 ?>
 
 <style>
-.notification {
-    position: fixed;
-    left: 20px;
-    top: 40%;
-    transform: translateY(-50%);
-    padding: 15px 25px;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    z-index: 1000;
-    animation: slideIn 0.5s ease-out;
-}
-
-.notification.success {
-    background-color: #4CAF50;
-}
-
-.notification.error {
-    background-color: #f44336;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translate(-100%, -50%);
-        opacity: 0;
+    .notification {
+        position: fixed;
+        left: 20px;
+        top: 40%;
+        transform: translateY(-50%);
+        padding: 15px 25px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        z-index: 1000;
+        animation: slideIn 0.5s ease-out;
     }
-    to {
-        transform: translate(0, -50%);
-        opacity: 1;
+
+    .notification.success {
+        background-color: #4CAF50;
     }
-}
+
+    .notification.error {
+        background-color: #f44336;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translate(-100%, -50%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translate(0, -50%);
+            opacity: 1;
+        }
+    }
 </style>
 
 <section class="event-firstview firstview">
@@ -106,20 +107,21 @@ if (isset($_GET['answer']) && isset($_GET['correct'])) {
 
     <?php
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-    
+
     $args = array(
-        'post_type'      => 'question',
+        'post_type' => 'question',
         'posts_per_page' => 5,
-        'paged'          => $paged,
-        'post_status'    => 'publish',
-        'orderby'       => 'date',
-        'order'         => 'DESC'
+        'paged' => $paged,
+        'post_status' => 'publish',
+        'orderby' => 'date',
+        'order' => 'DESC'
     );
 
     $loop = new WP_Query($args);
-    
+
     if ($loop->have_posts()) {
-        while ($loop->have_posts()) : $loop->the_post();
+        while ($loop->have_posts()):
+            $loop->the_post();
             ?>
             <div class="qa-ele">
                 <div class="qa-ele-question">
@@ -131,7 +133,8 @@ if (isset($_GET['answer']) && isset($_GET['correct'])) {
                         <span class="text">回答を見る</span>
                         <span class="icon">
                             <svg width="40" height="40" viewBox="0 0 40 40">
-                                <circle cx="20" cy="20" r="20" stroke="black" stroke-dasharray="4" stroke-width="2" fill="none" />
+                                <circle cx="20" cy="20" r="20" stroke="black" stroke-dasharray="4" stroke-width="2"
+                                    fill="none" />
                             </svg>
                             <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Arrow-right.png" alt="">
                         </span>
@@ -141,7 +144,7 @@ if (isset($_GET['answer']) && isset($_GET['correct'])) {
                     <p><?php echo get_field('quiz_answer'); ?></p>
                 </div>
             </div>
-        <?php
+            <?php
         endwhile;
 
         // WP-PageNavi Pagination
@@ -153,7 +156,7 @@ if (isset($_GET['answer']) && isset($_GET['correct'])) {
     } else {
         echo '<p>クイズが見つかりませんでした。</p>';
     }
-    
+
     wp_reset_postdata();
     ?>
 
@@ -163,26 +166,29 @@ if (isset($_GET['answer']) && isset($_GET['correct'])) {
 </section>
 <style>
     /* Style for WP-PageNavi */
-.wp-pagenavi {
-    clear: both;
-    text-align: center;
-    margin: 20px 0;
-}
-.wp-pagenavi a, 
-.wp-pagenavi span {
-    padding: 5px 10px;
-    margin: 0 2px;
-    border: 1px solid #ddd;
-    text-decoration: none;
-}
-.wp-pagenavi a:hover {
-    background: #f5f5f5;
-}
-.wp-pagenavi span.current {
-    background: #0073aa;
-    color: #fff;
-    border-color: #0073aa;
-    font-weight: bold;
-}
+    .wp-pagenavi {
+        clear: both;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .wp-pagenavi a,
+    .wp-pagenavi span {
+        padding: 5px 10px;
+        margin: 0 2px;
+        border: 1px solid #ddd;
+        text-decoration: none;
+    }
+
+    .wp-pagenavi a:hover {
+        background: #f5f5f5;
+    }
+
+    .wp-pagenavi span.current {
+        background: #0073aa;
+        color: #fff;
+        border-color: #0073aa;
+        font-weight: bold;
+    }
 </style>
 <?php get_footer(); ?>

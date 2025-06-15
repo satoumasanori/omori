@@ -44,7 +44,7 @@ get_header();
   <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Rectangle 85.png" class="pink-shape" alt="">
   <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Rectangle 84.png" class="blue-shape" alt="">
   <div class="event-content-text-part">
-    <h2 class="plat-h2"><?php echo get_post_meta(get_the_ID(), "plat_title", true); ?></h2>
+    <h2 class="plat-h2"><?php echo get_the_title(); ?></h2>
     <p class="plat-date"><?php echo get_post_meta(get_the_ID(), "plat_date", true); ?></p>
     <?php
     $tags = get_the_tags();

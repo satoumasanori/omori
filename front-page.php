@@ -2,43 +2,85 @@
 get_header();
 ?>
 <section class="firstview">
+    <?php if ( isset($_GET['login']) && $_GET['login'] === 'success' ) : ?>
+  <div id="login-notification" class="login-notification success" style="background:#e6f7e6;color:#207520;padding:16px 24px;max-width:600px;border-radius:8px;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:center;position:fixed;left:-700px;top:40px;z-index:9999;transition:left 0.8s cubic-bezier(.77,0,.18,1), opacity 0.5s;opacity:1;">
+    <strong>✅ ログインに成功しました！</strong> ようこそ。
+  </div>
+<?php endif; ?>
   <div class="f-left">
     <div class="f-to-event">
       <div class="renaming-day">
-        <p>大森駅開業<span>150</span>周年まで あと<span>405</span>日 ！</p>
+        <p>大森駅開業<span>150</span>周年まで あと<span  id="countdown-days"></span>日 ！</p>
       </div>
+
+      <?php
+      $today = date('Y-m-d');
+      $args = [
+        'post_type'      => 'tribe_events',
+        'posts_per_page' => 1,
+        'meta_query'     => [
+          [
+            'key'     => '_EventStartDate',
+            'value'   => [$today . ' 00:00:00', $today . ' 23:59:59'],
+            'compare' => 'BETWEEN',
+            'type'    => 'DATETIME',
+          ],
+        ],
+        'orderby'  => 'meta_value',
+        'meta_key' => '_EventStartDate',
+        'order'    => 'ASC',
+      ];
+
+      $today_event_query = new WP_Query($args);
+      ?>
+
       <div class="f-event-date">
-        <h3>04<span>.</span>20</h3>
-        <p>2025<br>WED</p>
+        <h3><?php echo date('m'); ?><span>.</span><?php echo date('d'); ?></h3>
+        <p><?php echo date('Y'); ?><br><?php echo strtoupper(date('D')); ?></p>
         <h2>本日のイベント</h2>
       </div>
-      <div class="f-event-title">商店街スタンプラリー</div>
-      <div class="f-event-content">
-        <div class="info">
-          <p>INFORMATION</p>
-          <div></div>
-        </div>
-        <p>時間: 10:00〜16:00 | 場所: 大森商店街</p>
-        <h3>大森商店街の各店舗をめぐるスタンプラリー。<br>全店舗制覇で特製グッズをプレゼント！</h3>
-      </div>
+
+      <?php if ($today_event_query->have_posts()) : ?>
+        <?php while ($today_event_query->have_posts()) : $today_event_query->the_post(); ?>
+          <?php
+          $title = get_the_title();
+          $start_time = function_exists('tribe_get_start_time') ? tribe_get_start_time(get_the_ID(), false, 'H:i') : '';
+          $end_time = function_exists('tribe_get_end_time') ? tribe_get_end_time(get_the_ID(), false, 'H:i') : '';
+          $venue = function_exists('tribe_get_venue') ? tribe_get_venue(get_the_ID()) : '';
+          $excerpt = get_the_excerpt();
+          ?>
+          <div class="f-event-title"><?php echo esc_html($title); ?></div>
+          <div class="f-event-content">
+            <div class="info">
+              <p>INFORMATION</p>
+              <div></div>
+            </div>
+            <p>時間: <?php echo esc_html($start_time); ?>~ <?php echo esc_html($end_time); ?>| 場所: <?php echo esc_html($venue); ?></p>
+            <h3><?php echo esc_html($excerpt); ?></h3>
+          </div>
+        <?php endwhile; ?>
+        <?php wp_reset_postdata(); ?>
+      <?php else : ?>
+        <div class="f-event-title">本日のイベントはありません</div>
+      <?php endif; ?>
+
       <div class="f-to-question">
         <p class="f-to-question-title">今日の質問</p>
         <div class="f-to-question-content">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/スクリーンショット 2025-05-02 13.31.49.png"
-            class="emogics" alt="">
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/スクリーンショット 2025-05-02 13.31.49.png" class="emogics" alt="">
           <div class="f-to-question-content-text">
             <p>大森海岸の貝塚を発見した人物は誰でしょう？</p>
           </div>
         </div>
         <div class="answer">
           <p>回答する</p>
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/arrow.jpg" class="arrow" alt="">
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/arrow.png" class="arrow" alt="">
         </div>
       </div>
     </div>
   </div>
   <div class="f-right">
-    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/イベント.jpg" alt="">
+    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/event.jpg" alt="No image">
   </div>
 </section>
 
@@ -55,27 +97,58 @@ get_header();
 
   <div class="news-right">
     <div class="news-info">
-      <div class="news-item">
-        <span class="news-date">2025.00.00</span>
-        <span class="news-title">タイトルタイトルタイトルタイトルタイトル</span>
-      </div>
-      <div class="news-item">
-        <span class="news-date">2025.00.00</span>
-        <span class="news-title">タイトルタイトルタイトルタイトルタイトル</span>
-      </div>
+      <?php
+      $popular_posts_args = array(
+        'posts_per_page' => 2,
+        'orderby' => 'meta_value_num',
+        'order' => 'DESC',
+        'post_type' => "news"
+      );
+      $voice_query = new WP_Query($popular_posts_args);
+
+      if ($voice_query->have_posts()):
+        while ($voice_query->have_posts()):
+          $voice_query->the_post();
+          ?>
+          <a class="sub-news-link" href="<?php echo get_permalink() ?>"><div class="news-item" >
+            <span class="news-date"><?php echo get_field('news_date'); ?></span>
+            <span class="news-title"><?php echo get_the_title(); ?></span>
+          </div></a>
+          <?php
+        endwhile;
+        wp_reset_postdata();
+      else:
+        ?>
+        <div class="vcard">
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/default-profile.jpg" alt="Profile">
+          <div class="testimonial">
+            現在データはありません。
+          </div>
+          <div class="meta">
+            <span>Coming Soon</span>
+          </div>
+          <div class="tag">準備中</div>
+        </div>
+      <?php endif; ?>
     </div>
     <div class="more-button">
       <span>もっと見る</span>
-      <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/arrow.jpg" alt="" class="news-arrow">
+      <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/arrow.png" alt="" class="news-arrow">
     </div>
   </div>
 </section>
 
 <?php $events = get_today_events_query(); ?>
 <section class="event" id="event">
-  <div class="event-container">
     <div class="event-cube-decoration-pink"></div>
     <div class="event-cube-decoration-blue"></div>
+     <div class="range-button-group">
+      <button class="range-day range-button active" data-range="day">日表示</button>
+      <button class="range-week range-button" data-range="week">週間</button>
+      <button class="range-month range-button" data-range="month">月間</button>
+    </div> 
+    <div class="event-container">
+
     <div class="quiz-sidebar">
       <div class="section-title">
         <span class="blue">E</span><span class="pink">v</span><span class="yellow">e</span>
@@ -83,25 +156,37 @@ get_header();
       </div>
     </div>
 
-    <div class="range-button-group">
-      <button class="range-button active" data-range="day">日表示</button>
-      <button class="range-button" data-range="week">週間</button>
-      <button class="range-button" data-range="month">月間</button>
-    </div>
-
-    <div class="event-slide picture-slide calendarSwiper">
-      <div class="event-button-group">
-        <div class="event-calendar-btn next-btn">🡠</div>
-        <div class="event-calendar-btn prev-btn">🡢</div>
+    <div class="event-right">
+      <div class="quiz-sidebar">
+        <div class="section-title">
+          <span class="blue">E</span><span class="pink">v</span><span class="yellow">e</span>
+          <span class="black">n</span><span class="blue">t</span>
+        </div>
       </div>
-
-      <div class="day-event-cards swiper-wrapper" id="event-results">
-
+      <div class="event-handle-button">
+        <p>イベントカレンダー</p>
+        <div class="event-button-group">
+          <div class="event-calendar-btn next-btn">
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/prev.png" alt="" class="news-arrow">
+          </div>
+          <div class="event-calendar-btn prev-btn">
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/next.png" alt="" class="news-arrow">
+          </div>
+          <div id="event-range-label"><p></p></div>
+        </div>
+      </div>
+      <div class="event-slide calendarSwiper" id="event-box">
+        <div class="day-event-cards " id="event-results">
+        </div>
+      </div>
+      <div class="event-month-pagination" id="event-pagination-handle-button" >
+        <button class="month-btn month-prev-btn">前ー</button>
+        <button class="month-btn month-next-btn">次ー</button>
       </div>
     </div>
   </div>
-</section>
 
+</section>
 
 <section class="quiz" id="quiz">
   <div class="quiz-sidebar">
@@ -136,7 +221,7 @@ get_header();
           $voice_query->the_post();
           ?>
           <div class="speech-bubble">
-            <p><?php echo get_field('today_question'); ?></p>
+            <p><?php echo get_the_title(); ?></p>
           </div>
         </div>
         <div class="quiz-answers" id="question_select">
@@ -280,12 +365,15 @@ get_header();
         <span class="yellow">o</span>
         <span class="black">k</span>
       </div>
-      <div>
-        <p>大森ナレッジバンク</p>
+      <div class="picture-heading-area">
+        <p>大森図鑑</p>
+      </div>
+      <div class="picture-heading-right ">
+        <p class="picture-subtitle">地域で活躍する<br>素敵な人々を紹介します</p>
       </div>
     </div>
     <div class="picture-heading-right ">
-      <p class="picture-subtitle">大森のことを<br>もっとたくさん知ろう！</p>
+      <p class="picture-subtitle">地域で活躍する<br>素敵な人々を紹介します</p>
     </div>
   </div>
 
@@ -293,10 +381,12 @@ get_header();
     <div class="swiper-handle-group">
       <div class="swiper-button-prev"
         style="background-color: #fff; position: relative; color:#000; display:flex; justify-content: center; padding: 0;">
-        🡠</div>
+        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/prev.png" alt="" class="news-arrow">
+      </div>
       <div class="swiper-button-next"
         style="background-color: #fff; position: relative; color:#000; display:flex; justify-content: center; padding: 0;">
-        🡢</div>
+        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/next.png" alt="" class="news-arrow">
+      </div>
     </div>
     <div class="picture-wrap swiper-wrapper" id="pictureWrap">
       <?php
@@ -441,10 +531,10 @@ get_header();
         </div>
         <div class="history-handle-btn">
           <div class="swiper-button-prev">
-            <p></p>
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/prev.png" alt="" class="news-arrow">
           </div>
           <div class="swiper-button-next">
-            <p></p>
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/next.png" alt="" class="news-arrow">
           </div>
         </div>
         <div class="swiper-pagination"></div>
@@ -472,7 +562,6 @@ get_header();
         <h2>活動と理念</h2>
       </div>
     </div>
-
     <div class="swiper ofcSwiper">
       <div class="ofc-policy">
         <p class="ofc-subtitle">policy</p>
@@ -487,33 +576,46 @@ get_header();
         </div>
       </div>
       <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Ellipse 28.png" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Ellipse 28.png" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Ellipse 28.png" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Ellipse 28.png" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Ellipse 28.png" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Ellipse 28.png" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Ellipse 28.png" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/Ellipse 28.png" alt="">
-        </div>
+        <?php
+        $popular_posts_args = array(
+          'posts_per_page' => 6,
+          'orderby' => 'meta_value_num',
+          'order' => 'DESC',
+          'post_type' => "ofc"
+        );
+        $voice_query = new WP_Query($popular_posts_args);
+        if ($voice_query->have_posts()):
+          while ($voice_query->have_posts()):
+            $voice_query->the_post();
+            ?>
+            <div class="ofc-photo swiper-slide">
+              <?php
+              $image = get_field('ofc-photo');
+              if ($image) {
+                $url = $image['url'];
+                $alt = $image['alt'];
+                echo '<img src="' . $url . '" alt="' . $alt . '" />';
+              }
+              ?>
+            </div>
+            <?php
+          endwhile;
+          wp_reset_postdata();
+        else:
+          ?>
+          <div class="vcard">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/default-profile.jpg" alt="Profile">
+            <div class="testimonial">
+              現在データはありません。
+            </div>
+            <div class="meta">
+              <span>Coming Soon</span>
+            </div>
+            <div class="tag">準備中</div>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
-
   </div>
   <div class="ofc-down">
     <div class="ofc-down-img">

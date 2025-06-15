@@ -4,16 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>omori</title>
   <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/top.css">
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/base_style.css">
-  <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/responsive.css">
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/hamburger.css">
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/customize.css">
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/eventcard.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/slide.css">
+  <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/responsive.css">
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 
@@ -99,6 +100,16 @@
         </div>
         </a>
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/contact.png" class="btn-contact" alt="">
+          <div class="header-login-signup">
+          <?php if (!is_user_logged_in()): ?>
+            <a href="<?php echo site_url("/sign-up"); ?>" class="header-signup-btn" style="margin-left:10px;display:inline-block;padding:10px 20px;background:#ff6b6b;color:#fff;border-radius:7px;font-size:18px;text-decoration:none;">会員登録(無料)</a>
+          <?php endif; ?>
+          <?php if (is_user_logged_in()): ?>
+            <a href="<?php echo wp_logout_url(home_url()); ?>" class="header-login-btn" style="margin-left:20px;display:inline-block;padding:10px 20px;background:#3f8ff8;color:#fff;border-radius:7px;font-size:18px;text-decoration:none;">ログアウト</a>
+          <?php else: ?>
+            <a href="<?php echo site_url("/login"); ?>" class="header-login-btn" style="margin-left:20px;display:inline-block;padding:10px 20px;background:#3f8ff8;color:#fff;border-radius:7px;font-size:18px;text-decoration:none;">ログイン</a>
+          <?php endif; ?>
+        </div>
       </div>
     </div>
   </header>

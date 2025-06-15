@@ -58,7 +58,7 @@ get_header();
     </div>
     <div class="event-content-pic-part-text">
       <h2>
-        <?php echo get_post_meta(get_the_ID(), "pic-sub-title", true); ?><span><?php echo get_post_meta(get_the_ID(), "pic-category", true); ?></span>
+        <?php echo get_the_title(); ?><span><?php echo get_post_meta(get_the_ID(), "pic-category", true); ?></span>
       </h2>
       <p><?php echo get_post_meta(get_the_ID(), "pic-card-desc", true); ?></p>
     </div>
